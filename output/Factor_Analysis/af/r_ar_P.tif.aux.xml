@@ -1,0 +1,125 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <Description>aridity</Description>
+    <GDALRasterAttributeTable tableType="thematic">
+      <FieldDefn index="0">
+        <Name>ID</Name>
+        <Type>0</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="1">
+        <Name>aridity</Name>
+        <Type>2</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <Row index="0">
+        <F>1</F>
+        <F>1</F>
+      </Row>
+      <Row index="1">
+        <F>2</F>
+        <F>2</F>
+      </Row>
+      <Row index="2">
+        <F>101</F>
+        <F>101</F>
+      </Row>
+      <Row index="3">
+        <F>102</F>
+        <F>102</F>
+      </Row>
+      <Row index="4">
+        <F>103</F>
+        <F>103</F>
+      </Row>
+      <Row index="5">
+        <F>104</F>
+        <F>104</F>
+      </Row>
+      <Row index="6">
+        <F>105</F>
+        <F>105</F>
+      </Row>
+      <Row index="7">
+        <F>201</F>
+        <F>201</F>
+      </Row>
+      <Row index="8">
+        <F>202</F>
+        <F>202</F>
+      </Row>
+      <Row index="9">
+        <F>203</F>
+        <F>203</F>
+      </Row>
+      <Row index="10">
+        <F>204</F>
+        <F>204</F>
+      </Row>
+      <Row index="11">
+        <F>205</F>
+        <F>205</F>
+      </Row>
+      <Row index="12">
+        <F>301</F>
+        <F>301</F>
+      </Row>
+      <Row index="13">
+        <F>302</F>
+        <F>302</F>
+      </Row>
+      <Row index="14">
+        <F>303</F>
+        <F>303</F>
+      </Row>
+      <Row index="15">
+        <F>304</F>
+        <F>304</F>
+      </Row>
+      <Row index="16">
+        <F>305</F>
+        <F>305</F>
+      </Row>
+      <Row index="17">
+        <F>401</F>
+        <F>401</F>
+      </Row>
+      <Row index="18">
+        <F>402</F>
+        <F>402</F>
+      </Row>
+      <Row index="19">
+        <F>403</F>
+        <F>403</F>
+      </Row>
+      <Row index="20">
+        <F>404</F>
+        <F>404</F>
+      </Row>
+      <Row index="21">
+        <F>405</F>
+        <F>405</F>
+      </Row>
+      <Row index="22">
+        <F>501</F>
+        <F>501</F>
+      </Row>
+      <Row index="23">
+        <F>502</F>
+        <F>502</F>
+      </Row>
+      <Row index="24">
+        <F>503</F>
+        <F>503</F>
+      </Row>
+      <Row index="25">
+        <F>504</F>
+        <F>504</F>
+      </Row>
+      <Row index="26">
+        <F>505</F>
+        <F>505</F>
+      </Row>
+    </GDALRasterAttributeTable>
+  </PAMRasterBand>
+</PAMDataset>

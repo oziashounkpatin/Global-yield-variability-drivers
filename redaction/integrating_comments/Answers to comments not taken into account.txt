@@ -1,0 +1,10 @@
+Matti
+Significant is normally used only if it refers to statistically significancy; 
+otherwise better to use words considerable, or similar
+
+Reply: Ths is consistent with literature. Mean effect size for each moderator is considered 
+significant if their 95% CIs did not contain zero (p < 0.05). 
+
+Joshi, D.R., Sieverding, H.L., Xu, H., Kwon, H., Wang, M., Clay, S.A., Johnson, J.M., Thapa, 
+R., Westhoff, S. and Clay, D.E., 2023. A global meta‐analysis of cover crop response on soil 
+carbon storage within a corn production system. Agronomy Journal, 115(4), pp.1543-1556.
