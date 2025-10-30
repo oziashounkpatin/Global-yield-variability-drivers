@@ -1,3 +1,0 @@
-Comments_Matti
-The Growing degree days (GDD) used in this based was sourced from Ahvo, et al. 43 . 
-Mention also the original source for data we used

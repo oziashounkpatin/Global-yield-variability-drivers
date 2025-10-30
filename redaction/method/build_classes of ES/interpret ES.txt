@@ -1,4 +1,0 @@
-In sum, effect size distributions in ecology are leptokurtic. 
-They have a sharp peak at zero, but very heavy tails.** Which means 
-that the typical effect size of published ecological studies is moderate 
-to large in absolute magnitude, for one standard definition of “moderate to large”.
