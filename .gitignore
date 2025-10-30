@@ -17,3 +17,14 @@ input/
 *.rds
 *.7z
 *.gz
+
+
+Factor_Analysis/
+covariates/
+study_site/
+output/
+redaction/
+other_files/
+Journal_Agronomy for Sustainable Development/
+Johannes/
+Factor_Analysis/
