@@ -17,6 +17,7 @@ input/
 *.rds
 *.7z
 *.gz
+'.Rproj
 
 
 Factor_Analysis/
@@ -27,3 +28,5 @@ redaction/
 other_files/
 Journal_Agronomy for Sustainable Development/
 Johannes/
+script/
+output1/
