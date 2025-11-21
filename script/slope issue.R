@@ -1,5 +1,7 @@
 library(terra)
 library(sf)
+library(readxl)
+library(writexl)
 
 # Slope classes
 
@@ -14,6 +16,11 @@ library(sf)
 # Steep	Slope > 15%
 
 r<-rast("C:/Users/hounkpk1/OneDrive - Aalto University/Thesis_data/misc/slope.tif")
+r<-rast("./covariates/slope.tif")
+#r2<-rast("./covariates/slope.tif")
+
+df<-read_xlsx("./input/rfps_data.xlsx", sheet="full_data_with_references")
+head(df)
 
 # convert to spatial data
 df$slope<-NULL
@@ -22,8 +29,14 @@ sp_dat <- sel_dat %>%
   drop_na(y)%>% 
   st_as_sf(coords = c("x", "y"), crs = 4326)
 
-comb_sp<-terra::extract(r, sp_dat,na.rm = TRUE,bind=T, ID=F)
+comb_sp<-terra::extract(r, sp_dat,na.rm = TRUE,bind=T, ID=F,  xy=TRUE)
+# Move x, y to the first two columns
+comb_sp <- comb_sp[, c("x", "y", setdiff(names(comb_sp), c("x", "y")))]
+
 df<-as.data.frame(comb_sp)
+
+write_xlsx(df, "./input/scps_data.xlsx")
+
 
 head(df)
 
