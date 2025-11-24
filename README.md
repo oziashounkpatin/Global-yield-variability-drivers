@@ -3,7 +3,7 @@ This repository contains the code, data preparation scripts, and analysis workfl
 > **Global determinants of yield variability under soil conservation practices across climate, soil, and topography: A meta-analysis**  
 > *Kpade O. L. Hounkpatin, Johannes Piipponen, Emanuela De Giorgi, Mika Jalava, Jeroen Poelert, Matti Kummu*
 
-**1. Compiling and preproprcessing the database** 
+**1. Compiling and preprocessing the database** 
 
 The pipeline Step1_database_pre_processing merges three meta-analytic datasets (Su et al.,2021; Jian et al., 2020 and farmgeek), harmonises crop and management classifications, computes yield effect sizes, removes duplicates and inconsistent records, and links each observation to soil, climate, and topographic covariates. It then imputes and normalises soil texture fractions and outputs a cleaned, spatially explicit database for subsequent analyses.
 
