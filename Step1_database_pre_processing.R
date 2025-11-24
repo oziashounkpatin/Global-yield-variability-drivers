@@ -13,6 +13,7 @@ library(terra)
 library(soiltexture)
 library(mice)
 library(stringr)
+library(tidyverse)
 library(tidyr)
 library(purrr)
 
@@ -109,13 +110,13 @@ crop_recode <- c(
 ## -----------------------------------------------------------------------------
 ## Load raw data
 ## -----------------------------------------------------------------------------
-su_dat        <- read_xlsx("./input/Su.xlsx")
-jian_dat      <- read_xlsx("./input/Jian.xlsx")
-farmgeek_dat  <- read_xlsx("./input/farmgeek.xlsx")
+su_dat        <- read_xlsx("./Preliminary data/Su.xlsx")
+jian_dat      <- read_xlsx("./Preliminary data/Jian.xlsx")
+farmgeek_dat  <- read_xlsx("./Preliminary data/farmgeek.xlsx")
 
-su_ref_dat    <- read_xlsx("./input/references_Su.xlsx")
-jian_ref_dat  <- read_xlsx("./input/ref_Jian.xlsx")
-farmgeek_ref  <- read_xlsx("./input/farmgeek_ref.xlsx")
+su_ref_dat    <- read_xlsx("./Preliminary data/references_Su.xlsx")
+jian_ref_dat  <- read_xlsx("./Preliminary data/ref_Jian.xlsx")
+farmgeek_ref  <- read_xlsx("./Preliminary data/farmgeek_ref.xlsx")
 
 ## -----------------------------------------------------------------------------
 ## SU ET AL
@@ -396,35 +397,25 @@ fin_sel_su_std      <- standardise_types(fin_sel_su)
 fin_sel_jian_std    <- standardise_types(fin_sel_jian)
 farmgeek_dat_df_std <- standardise_types(farmgeek_dat_df)
 
-df_all1 <- dplyr::bind_rows(
+df_all <- dplyr::bind_rows(
   fin_sel_su_std,
   fin_sel_jian_std,
   farmgeek_dat_df_std
 )
 
-unique(df_all1$key)
-
 
 # Clean crop labels
-df_all_up_crop1 <- df_all1 %>%
+df_all_up_crop <- df_all %>%
   filter(!Crop %in% crops_to_drop) %>%
   dplyr::mutate(Crop = recode(Crop, !!!crop_recode))
 
-dim(df_all1)
-dim(df_all_up_crop1)
 
 # Keep only AF, CC, NT, OF
-df_all_up_crop_target1<- df_all_up_crop1[is.element(df_all_up_crop1$key, c("AF","CC","NT","OF")),]
-dim(df_all_up_crop_target1)
+df_all_up_crop_target<- df_all_up_crop[is.element(df_all_up_crop$key, c("AF","CC","NT","OF")),]
 
-df_all_up_crop_target1 %>%
+df_all_up_crop_target %>%
   dplyr::filter(source == "farmgeek") %>%
   dplyr::count(references, key, sort = TRUE)
-
-
-write_xlsx(df_all_up_crop_target1, "df_all_up_crop_target1.xlsx")
-write_xlsx(df_all_up_crop_target, "df_all_up_crop_target.xlsx")
-
 
 # sample sizes
 final_data <- df_all_up_crop_target %>%
@@ -597,7 +588,16 @@ df_final2 <- bind_cols(df_final1, SSCP_norm) %>%
     wrb     = ID_wrb
   )
 
-# Save dataext_data
-write_xlsx(df_final2, "./input/new_data2.xlsx")
+df_final2 <- df_final2 %>%
+  dplyr::select(
+    x, y, source, references, Author, Year,
+    Journal, country, Location, control, managed, effectSize,
+    key, Crop, sampleSize_control, sampleSize_treatment, Year_harvest, N_input,
+    soil_cover, weed_control, rotation, Crop_Group, kg_clim, GDD_maize,
+    GDD_wheat, GDD_rice, GDD_soybean, aridity, pH, sand,
+    silt, clay, soc, bd, phosphorus, wrb,
+    wrb_leg, dem, slope, landform
+  )
 
-dim(df_final2)
+# Save dataext_data
+write_xlsx(df_final2, "./input/scps_data1.xlsx")

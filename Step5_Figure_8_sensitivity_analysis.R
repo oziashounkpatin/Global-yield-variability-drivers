@@ -1,6 +1,6 @@
 # ---- chunk_1 ----
 
-knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_chunk$set(echo = TRUE)
 
 
 # ---- chunk_2 ----
@@ -32,13 +32,13 @@ exact_colours <- c("#FFCE66", "#92463A", "#4D5492", "#80E6FF")
 
 
 # Convert ES to perc
-perc<- function(data){
-  data_conv=100*(exp(data) - 1)
-  return(data_conv)
-}
+# perc<- function(data){
+#   data_conv=100*(exp(data) - 1)
+#   return(data_conv)
+# }
 
 # Read the data
-df_raw <- read_excel("dataset_Ozias.xlsx")
+df_raw <- read_excel("./input/scps_data.xlsx")
 
 
 
@@ -52,11 +52,11 @@ names(df_raw)
 # ---- chunk_3 ----
 
 # Group data by studies and count the number of cases
-df_raw<-df_raw %>% 
-  mutate(ES=perc(effectSize)) %>%
-  filter(!ES > 100) %>%
-  dplyr::select(!effectSize)  %>%
-  dplyr::rename(effectSize=ES) 
+# df_raw<-df_raw %>% 
+#   #dplyr::rename(ES=effectSize) %>%
+#   #filter(!ES > 100) %>%
+#   dplyr::select(!effectSize)  %>%
+#   dplyr::rename(effectSize=ES) 
 
   
  df_raw %>% group_by(key) %>% 
@@ -268,11 +268,6 @@ plt_4_jacknifes <- ggplot(avg_mean_all, aes(x = excluded_obs, y = avg_effectSize
     legend.position = "none"  
   )
 
-
-
-
-
-
 # All together, no keys separated
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -334,254 +329,14 @@ plt_4histograms
 plt_density_plot_combined
 plt_4_jacknifes
 
+# Output folder
+out_dir <- "./output/figure_8/"
+dir.create("./output", showWarnings = FALSE)
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
 # Save as pdf files
-ggsave(here("figures", "plt_density_plot_combined.pdf"), plt_density_plot_combined)
-ggsave(here("figures", "plt_4histograms.pdf"), plt_4histograms)
-ggsave(here("figures", "plt_4_jacknifes.pdf"), plt_4_jacknifes)
+ggsave(here(out_dir, "plt_density_plot_combined.pdf"), plt_density_plot_combined)
+ggsave(here(out_dir, "plt_4histograms.pdf"), plt_4histograms)
+ggsave(here(out_dir, "plt_4_jacknifes.pdf"), plt_4_jacknifes)
 
 
-# ---- chunk_11 ----
-
-# Example without function
-# df_raw %>%
-#   filter(key != "OF") %>%
-#   group_by(Crop_Group) %>%
-#   summarise(avg_effectSize = mean(effectSize, na.rm = TRUE))
-
-# Function for this (drop when Crop_Group is NA)
-f_calculate_avg_effectSize <- function(key_to_be_excluded){
-  
-  avg_effectSize <- 
-    df_raw %>% 
-    filter(key != key_to_be_excluded) %>% 
-    group_by(Crop_Group) %>% 
-    summarise(avg_effectSize = mean(effectSize, na.rm = TRUE)) %>% 
-    drop_na() %>% 
-    mutate(excluded_key = key_to_be_excluded) # Lisätään sarake, joka ilmoittaa poistetun keyn
-  
-  return(avg_effectSize)
-}
-
-# Example
-f_calculate_avg_effectSize("OF")
-
-# Run function for all keys
-all_keys <- unique(df_raw$key)
-
-# Sovelletaan funktiota kaikkiin key-arvoihin ja tallennetaan tulokset
-results <- map_df(all_keys, f_calculate_avg_effectSize)
-results
-
-
-# ---- chunk_12 ----
-
-# Wide 
-results_wide_arranged <- results %>%
-  pivot_wider(names_from = Crop_Group, values_from = avg_effectSize) %>%
-  arrange(excluded_key)
-
-results_wide_arranged
-
-# Long
-results_long <- results_wide_arranged %>%
-  pivot_longer(cols = -excluded_key, names_to = "Crop_Group", values_to = "avg_effectSize")
-
-
-
-# Draw a combined plot 
-# similarly as done below wiht plt_combined_arranged -- use facte_grid etc
-library(scico)
-plt_jacknife <-
-  ggplot(results_long, 
-         aes(x = factor(excluded_key, levels = unique(excluded_key)), 
-             y = avg_effectSize, color = Crop_Group, group = Crop_Group)) +
-  geom_line(linewidth = 1.2) +
-  facet_grid(Crop_Group ~ ., 
-             scales = "free_y")+#,
-             #labeller = as_labeller(c("AF" = "AF", "CC" = "CC", "NT" = "NT"))) + # not necessary?
-  theme_gray() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6),
-        axis.text.y = element_text(size = 16),
-        strip.text = element_text(size = 16),
-        legend.position = "none") +
-  scale_color_scico_d(palette = "roma") +
-  labs(title = "Sensitivity analysis - Jacknife",
-       x = "Excluded study",
-       y = "Average effect size") 
- 
-
-plt_jacknife
-
-
-# ---- chunk_13 ----
-
-# Load necessary libraries
-library(tidyverse)
-library(fixest)
-
-# Read the data
-df_raw <- read_csv("data_johannes.csv")
-
-# Add a new column ln_gni as the natural logarithm of gni
-df_raw <- df_raw %>% 
-  mutate(ln_gni = log(gni))
-
-# Explore data: number of countries, crops and years
-length(unique(df_raw$country)) # 81 countries
-unique(df_raw$year) %>% sort() # years 2000-2020
-
-
-
-# Group data by country and count the number of cases
-df_raw %>% 
-  group_by(country) %>% 
-  summarise(Number_of_cases = n()) %>% 
-  arrange(Number_of_cases)
-
-# Create a list of countries with more than 80 observations
-#my_cntrylist_over80 <- 
-my_countries_obs <-
-  df_raw %>% 
-  group_by(country) %>% 
-  summarise(Number_of_cases = n()) %>% 
- # filter(Number_of_cases > 80) %>% 
-  arrange(Number_of_cases)# %>%   pull(country)
-
-
-# ---- chunk_14 ----
-
-# Create a function to run feols excluding one country at a time
-f_exclude_countries <- function(country_tobe_excluded) {
-  feols(loss_percentage1 ~ ln_gni + agriShr + agriEmp + msch + 
-           electricityRural + phoneSub + polStab + export + regionalName + as.factor(year),
-         cluster = ~ regionalName, 
-         data = df_raw %>% filter(country != country_tobe_excluded)) %>%
-    broom::tidy() %>%
-    dplyr::select(term, estimate, p.value) %>%
-    mutate(excluded_country = country_tobe_excluded)
-}
-
-# Example function calls
-f_exclude_countries("Angola")
-f_exclude_countries("Burundi")
-
-# Use the function for all countries
-my_countries <- unique(df_raw$country)
-
-# Apply the function to all countries and store the results
-results <- map_df(my_countries, f_exclude_countries)
-
-# Widen the results and rename p-value columns ---> not sure if this is needed
-results_wider <- results %>%
-  pivot_wider(names_from = term, values_from = c(estimate, p.value)) %>%
-  rename(
-    pval_intercept = `p.value_(Intercept)`,
-    pval_ln_gni = `p.value_ln_gni`,
-    pval_agriShr = `p.value_agriShr`,
-    pval_agriEmp = `p.value_agriEmp`,
-    pval_msch = `p.value_msch`,
-    pval_electricityRural = `p.value_electricityRural`,
-    pval_phoneSub = `p.value_phoneSub`,
-    pval_polStab = `p.value_polStab`,
-    pval_export = `p.value_export`
-  )
-
-results_wider
-
-
-# ---- chunk_15 ----
-
-library(flextable)
-library(modelsummary)
-
-model <-   feols(loss_percentage1 ~ ln_gni + agriShr + agriEmp + msch + 
-                   electricityRural + phoneSub + polStab + export + regionalName + as.factor(year),
-                 cluster = ~ regionalName, 
-                 data = df_raw)
-
-
-
-# Create the table for the feols model
-model_table <- modelsummary(model, stars = T, output = "flextable")
-model_table
-# uncomment this
-#save_as_docx(model_table, path = ("selected_results.docx"))
-
-
-# ---- chunk_16 ----
-
-results_arranged <- map_df(unique(my_countries_obs$country), f_exclude_countries)
-
-results_wider_arranged <- results_arranged %>%
-  pivot_wider(names_from = term, values_from = c(estimate, p.value)) %>%
-  rename(
-    pval_intercept = `p.value_(Intercept)`,
-    pval_ln_gni = `p.value_ln_gni`,
-    pval_agriShr = `p.value_agriShr`,
-    pval_agriEmp = `p.value_agriEmp`,
-    pval_msch = `p.value_msch`,
-    pval_electricityRural = `p.value_electricityRural`,
-    pval_phoneSub = `p.value_phoneSub`,
-    pval_polStab = `p.value_polStab`,
-    pval_export = `p.value_export`
-  )
-
-
-results_long_arranged <- results_wider_arranged %>%
-  pivot_longer(
-    cols = starts_with("estimate_"),
-    names_to = "variable",
-    values_to = "value"
-  ) %>% 
-  dplyr::select(excluded_country, variable, value) %>%
-  drop_na()
-
-
-
-# Select only some variables
-results_long_arranged <- results_long_arranged %>% 
-  filter(variable %in% c("estimate_(Intercept)", "estimate_ln_gni",                                 
- "estimate_agriShr",                                  
-  "estimate_agriEmp",                                  
-  "estimate_msch",                                     
-  "estimate_electricityRural",                         
-  "estimate_phoneSub",                                 
-  "estimate_polStab",                                  
-  "estimate_export"   ))
-
-
-# Draw a combined plot
-library(scico)
-
-plt_combined_arranged <- ggplot(results_long_arranged, aes(x = factor(excluded_country, levels = unique(excluded_country)), y = value, color = variable, group = variable)) +
-  geom_line(size = 1.2) + 
-  facet_grid(variable ~ .,
-             scales = "free_y",
-             labeller = as_labeller(c("estimate_(Intercept)" = "Intercept",
-                                      estimate_ln_gni = "Log GNI",
-                                      estimate_agriShr = "Agri Share",
-                                      estimate_agriEmp = "Agri Emp",
-                                      estimate_msch = "Mean Sch",
-                                      estimate_electricityRural = "Elec Acc",
-                                      estimate_phoneSub = "Phone Sub",
-                                      estimate_polStab = "Pol Stab",
-                                      estimate_export = "Exports"))) +
-  theme_gray() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6),
-        axis.text.y = element_text(size = 8),
-        strip.text = element_text(size = 8),
-        legend.position = "none") +
-  scale_color_scico_d(palette = "roma") +
-  labs(title = "Impact of excluding a country on regression output",
-       x = "Excluded country countries with fewer observations         countries with more observations",
-       y = "Estimate")
-
-
-plt_combined_arranged
-
-# uncomment this
-
-# ggsave("sensitivity_plot_x_axis_based_on_N_obs.png", plot = plt_combined_arranged, dpi = 300, width = 300, height = 225, units = "mm")
-# 
-# ggsave("sensitivity_plot_x_axis_based_on_N_obs.pdf", plot = plt_combined_arranged)

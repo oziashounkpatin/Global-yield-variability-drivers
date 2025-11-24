@@ -23,7 +23,7 @@ set.seed(7)
 
 # --- I/O ---------------------------------------------------------------
 in_path <- "./input/scps_data.xlsx"   # <-- adjust if needed
-out_dir <- "./output/Figure_3_4_5/"
+out_dir <- "./output/Figure_5_6_7/"
 if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
 
 # --- Read --------------------------------------------------------------
@@ -752,9 +752,9 @@ fig_topography <- (p_AF_topo | p_CC_topo) / (p_NT_topo | p_OF_topo)
 
 
 # Save outputs
-file_out_cc <- file.path(out_dir, "Figure_3_crops_clim_by_practice1.pdf")
-file_out_soil <- file.path(out_dir, "Figure_4_soil_properties_by_practice2.pdf")
-file_out_topo <- file.path(out_dir, "Figure_5_topography_by_practice3.pdf")
+file_out_cc <- file.path(out_dir, "Figure_5_crops_clim_by_practice1.pdf")
+file_out_soil <- file.path(out_dir, "Figure_6_soil_properties_by_practice2.pdf")
+file_out_topo <- file.path(out_dir, "Figure_8_topography_by_practice3.pdf")
 
 
 walk2(

@@ -711,11 +711,11 @@ figure_pub <- p_mgmt_top + p_crops_top + blank_panel +
 figure_pub 
 
 # ---------------- Save ----------------
-ggsave(file.path(out_dir, "figure_21.pdf"),
+ggsave(file.path(out_dir, "figure_4.pdf"),
        figure_pub, device = cairo_pdf,
        width = 21, height = 25, units = "in",
        dpi = 600, limitsize = FALSE)
 
 # Data exports (optional)
-write_xlsx(mega_df,      file.path(out_dir, "figure_2_data1.xlsx"))
-write_xlsx(df,           file.path(out_dir, "full_data_figure_21.xlsx"))
+write_xlsx(mega_df,      file.path(out_dir, "figure_4_data.xlsx"))
+write_xlsx(df,           file.path(out_dir, "full_data_figure_4.xlsx"))
