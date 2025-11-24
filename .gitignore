@@ -18,6 +18,7 @@ input/
 *.7z
 *.gz
 *.Rproj
+RAP_Drivers.Rproj
 
 Factor_Analysis/
 covariates/
