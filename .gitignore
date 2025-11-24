@@ -17,7 +17,7 @@ input/
 *.rds
 *.7z
 *.gz
-'.Rproj
+*.Rproj
 *.txt
 
 
