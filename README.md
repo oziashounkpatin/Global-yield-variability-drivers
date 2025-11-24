@@ -15,7 +15,7 @@ The pipeline Step1_database_pre_processing merges three meta-analytic datasets (
  
 The step3 script Step3_Figure_4_Overall efffect size change generates Figure 4 of the manuscript — Distribution of the percentage change of the effect size between sustainable farming approaches, crop groups, soil properties, topography, and climatic variables — by constructing study-level clusters, deriving environmental and management classes, and using cluster bootstrapping to estimate mean yield effects and confidence intervals for each practice–covariate combination.
    
- **4. Distribution of the percentage change of the effect size across crops and environment variables for each each management**
+ **4. Distribution of the percentage change of the effect size across crops and environment variables for each management**
  
 The step 4 Step4_Figure_5_6_7_efffect size change per practice script stratifies the database by management (Agroforestry, Cover crop, No-tillage, Organic Farming), constructs consistent climate, soil and topographic classes, and applies study-clustered bootstrapping to estimate practice-specific yield effects. It then assembles panels for crops + climate (Figure 5), soil properties (Figure 6), and topography (Figure 7), each showing how yield responses vary by management and environmental context.
 
