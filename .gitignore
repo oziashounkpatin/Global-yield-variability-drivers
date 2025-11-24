@@ -18,6 +18,8 @@ input/
 *.7z
 *.gz
 '.Rproj
+*.txt
+
 
 
 Factor_Analysis/

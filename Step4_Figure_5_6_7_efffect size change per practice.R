@@ -754,7 +754,7 @@ fig_topography <- (p_AF_topo | p_CC_topo) / (p_NT_topo | p_OF_topo)
 # Save outputs
 file_out_cc <- file.path(out_dir, "Figure_5_crops_clim_by_practice1.pdf")
 file_out_soil <- file.path(out_dir, "Figure_6_soil_properties_by_practice2.pdf")
-file_out_topo <- file.path(out_dir, "Figure_8_topography_by_practice3.pdf")
+file_out_topo <- file.path(out_dir, "Figure_7_topography_by_practice3.pdf")
 
 
 walk2(

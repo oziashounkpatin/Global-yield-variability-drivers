@@ -450,7 +450,8 @@ all_dis <- all_dat_sel %>%
     Author, Journal, Location, x, y, Year,
     effectSize, key, Crop,
     .keep_all = TRUE
-  )
+  ) %>%
+  drop_na(references)
 
 # Convert to spatial
 sp_dat  <- st_as_sf(all_dis, coords = c("x", "y"), crs = 4326)
@@ -601,3 +602,5 @@ df_final2 <- df_final2 %>%
 
 # Save dataext_data
 write_xlsx(df_final2, "./input/scps_data1.xlsx")
+
+dim(df_final2)

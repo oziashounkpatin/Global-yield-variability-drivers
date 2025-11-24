@@ -23,7 +23,7 @@ set.seed(7)
 
 # ---------------- I/O ----------------
 in_path  <- "./input/scps_data.xlsx"     # <- change if needed
-out_dir  <- "./output/Figure_2/"
+out_dir  <- "./output/Figure_4/"
 if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
 
 # ---------------- Read ----------------
@@ -105,6 +105,16 @@ df_raw <- df_raw %>%
       sep = "_"
     )
   )
+
+dim(df_raw)
+sum(is.na(df_raw$references))  
+
+df_unique <- df_raw %>%
+  dplyr::select(references,references_norm, Author,Year_final,Journal, country) %>%
+  dplyr::distinct(references_norm, .keep_all = TRUE) %>%
+  drop_na(references)
+  
+df_unique
 
 # ---------------- Classes ----------------
 # SOC
@@ -719,3 +729,5 @@ ggsave(file.path(out_dir, "figure_4.pdf"),
 # Data exports (optional)
 write_xlsx(mega_df,      file.path(out_dir, "figure_4_data.xlsx"))
 write_xlsx(df,           file.path(out_dir, "full_data_figure_4.xlsx"))
+
+dim(df)
