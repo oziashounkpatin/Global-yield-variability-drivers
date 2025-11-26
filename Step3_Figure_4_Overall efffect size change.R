@@ -391,6 +391,7 @@ counts_by_group <- df_long %>%
 plan(multisession, workers = max(1, parallel::detectCores() - 1))
 grouped_data <- df_long %>% group_by(cov, cat) %>% group_split()
 
+set.seed(7)
 results_by_group <- furrr::future_map_dfr(
   grouped_data,
   function(g) {
@@ -402,6 +403,7 @@ results_by_group <- furrr::future_map_dfr(
 )
 
 # Overall
+set.seed(7)
 overall_list <- value(future(
   boot_mean_ci_study(df, study_col = "study_id", value_col = "effectSize", R = 1000, conf = 0.95),
   seed = TRUE))
@@ -478,6 +480,7 @@ counts_keycrop <- d_long_keycrop %>%
   group_by(cov, cat) %>%
   summarise(n_obs = n(), n_studies = n_distinct(references_norm), .groups = "drop")
 
+set.seed(7)
 res_keycrop <- d_long_keycrop %>%
   group_by(cov, cat) %>%
   group_split() %>%
@@ -506,6 +509,7 @@ counts_crops <- d_crops %>%
   )
 
 # bootstrap per crop
+set.seed(7)
 results_crops <- d_crops %>%
   dplyr::group_by(Crop_Group) %>%
   dplyr::group_split() %>%
@@ -521,6 +525,7 @@ results_crops <- d_crops %>%
   dplyr::left_join(counts_crops, by = "Crop_Group")
 
 # final mega for crops (one facet: "Crop group")
+set.seed(7)
 mega_crops <- results_crops %>%
   dplyr::transmute(
     component  = "Crops",
@@ -730,4 +735,4 @@ ggsave(file.path(out_dir, "figure_4.pdf"),
 write_xlsx(mega_df,      file.path(out_dir, "figure_4_data.xlsx"))
 write_xlsx(df,           file.path(out_dir, "full_data_figure_4.xlsx"))
 
-dim(df)
+print(mega_df, n=10000)
