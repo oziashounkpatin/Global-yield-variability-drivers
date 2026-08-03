@@ -19,6 +19,11 @@ input/
 *.gz
 *.Rproj
 RAP_Drivers.Rproj
+file_out_fig5.R
+lib_rap_drivers.enl
+login.txt
+potential small-study effects by plotting ES against study sample size.R
+
 
 Factor_Analysis/
 covariates/
