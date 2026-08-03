@@ -25,7 +25,7 @@ The Step5_Figure_8_sensitivity_analysis script generates density plots showing t
 
  **6. Leave-one-out sensitivity analysis**
 
-The **Step5_Figure_9_leave_one_out_sensitivity_analysis** script performs a leave-one-out (jackknife) sensitivity analysis to evaluate the robustness of the estimated mean effect sizes for each sustainable farming approach. In each iteration, a single observation is excluded, and the average effect size is recalculated to assess the influence of individual observations on the overall results. The script generates scatter plots for agroforestry (AF), cover cropping (CC), no-tillage (NT), and organic farming (OF), with dashed horizontal lines indicating the 95% confidence interval bounds. The resulting diagnostic plots correspond to **Figure 9** of the manuscript and demonstrate the stability of the estimated effect sizes across observations.
+The **Step6_Figure_9_leave_one_out_sensitivity_analysis** script performs a leave-one-out (jackknife) sensitivity analysis to evaluate the robustness of the estimated mean effect sizes for each sustainable farming approach. In each iteration, a single observation is excluded, and the average effect size is recalculated to assess the influence of individual observations on the overall results. The script generates scatter plots for agroforestry (AF), cover cropping (CC), no-tillage (NT), and organic farming (OF), with dashed horizontal lines indicating the 95% confidence interval bounds. The resulting diagnostic plots correspond to **Figure 9** of the manuscript and demonstrate the stability of the estimated effect sizes across observations.
 
 **7. Additional information**
 
